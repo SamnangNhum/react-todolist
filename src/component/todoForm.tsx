@@ -5,11 +5,10 @@ import { v4 as uuid } from 'uuid';
 import { TodoContext } from '../context/todoContext';
 
 const TodoForm = () => {
-    const inputRef = useRef<HTMLInputElement | null>(null);
-     // @ts-ignore 
-    const {value , setValue} = useContext(TodoContext)
-  
 
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const {value , setValue}: any = useContext(TodoContext)
+  
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -19,7 +18,6 @@ const TodoForm = () => {
                 console.log(err)
             }
         }
-
         fetchData()
     }, [])
 
@@ -30,7 +28,7 @@ const TodoForm = () => {
     }
 
     const handleClickEvent = async () => {
-        // @ts-ignore (us this comment if typescript raises an error)
+        // @ts-ignore 
         let userInput = inputRef.current.value
         if (userInput === '' || undefined || null) {
             alert('Please enter the task !');
@@ -48,7 +46,7 @@ const TodoForm = () => {
         try {
             const response = await api.post('/data', newTodo)
             setValue([...value, response.data])
-            // @ts-ignore (us this comment if typescript raises an error)
+            // @ts-ignore 
             inputRef.current.value = "";
         } catch (err) {
             console.log(err)
@@ -60,7 +58,6 @@ const TodoForm = () => {
 
     }
     return (
-        <>
             <div className=' mx-auto shadow-xl px-10 py-10 shadow-xl  rounded-md max-w-2xl bg-white my-10'>
                 <h2 className="font-bold pb-2.5 ">TO DO LIST: </h2>
                 <div className='flex justify-center gap-3 '>
@@ -69,10 +66,7 @@ const TodoForm = () => {
 
                 </div>
             </div>
-
-        </>
-
-    )
-}
+        )
+    }
 
 export default TodoForm;

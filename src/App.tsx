@@ -14,10 +14,7 @@ const App = () => {
         <TodoForm />
         <TodoList />
       </TodoContext.Provider>
-   
     </>
-
-
   );
 }
 
