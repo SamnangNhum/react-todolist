@@ -1,5 +1,5 @@
 export default interface data {
-    id: number,
+    id: string,
     title: string,
     completed: boolean
 }
