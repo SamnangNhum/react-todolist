@@ -1,5 +1,5 @@
 
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import api from '../api/data';
 import { v4 as uuid } from 'uuid';
 import { TodoContext } from '../context/todoContext';
@@ -7,7 +7,8 @@ import { TodoContext } from '../context/todoContext';
 const TodoForm = () => {
 
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const { value, setValue }: any = useContext(TodoContext)
+    const { value, setValue }: any = useContext(TodoContext);
+    const [input , setInput] = useState<string>()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,6 +29,9 @@ const TodoForm = () => {
     }
 
     const handleClickEvent = async () => {
+         // @ts-ignore 
+        setInput(inputRef.current.value)
+        
         // @ts-ignore 
         let userInput = inputRef.current.value
         if (userInput === '' || undefined || null) {
