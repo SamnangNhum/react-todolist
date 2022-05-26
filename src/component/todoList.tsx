@@ -5,11 +5,12 @@ import { useContext, useRef, useState } from 'react';
 
 const TodoList = () => {
     const { value, setValue }: any = useContext(TodoContext);
-    const [input , setInput] = useState<string>()
+    const [input, setInput] = useState<string>()
     const [updated, setUpdated] = useState(false);
     const [id, setId] = useState<string>();
     const [completed, setCompleted] = useState<boolean>();
-    const inputRef = useRef<HTMLInputElement | null>(null)
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const inputSearchRef = useRef<HTMLInputElement | null>(null);
     const handleDeleted = async (id: string) => {
         try {
             await api.delete(`/data/${id}`)
@@ -31,7 +32,7 @@ const TodoList = () => {
         }
     }
 
-    const handleUpdated = async (id: string, title:string , completed: boolean) => {
+    const handleUpdated = async (id: string, title: string, completed: boolean) => {
         setUpdated(!updated)
         setId(id);
         setCompleted(completed)
@@ -44,8 +45,8 @@ const TodoList = () => {
         }
     }
 
-    
-   
+
+
     const handleEdited = async () => {
         // @ts-ignore
         let userInput = inputRef.current.value
@@ -66,6 +67,27 @@ const TodoList = () => {
         }
     }
 
+    const handleSearchInput = async () => {
+        // @ts-ignore
+        let userSearchInput = inputSearchRef.current.value;
+       
+        try {
+            // Search From Json File
+            const response = await api.get(`/data?q=${userSearchInput}`)
+            // Search Arrayaa
+            // if(userSearchInput === '' || undefined || null){
+            //     setValue(value)
+            //     return;
+            // }
+          
+            // const filterValue = await value.filter((value:any) => {return value.title.toLowerCase().indexOf(userSearchInput)  !== -1})
+            // console.log(filterValue)
+            setValue(response.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
         <div className="todo  max-w-2xl mx-auto shadow-xl bg-white my-10 rounded-md ">
             {updated
@@ -77,7 +99,13 @@ const TodoList = () => {
                     </div>
                 </div>
                 :
-                <div className='px-5 py-7 border-b font-bold '>YOUR TASKS</div>
+                <div className='flex justify-between border-b'>
+                    <div className='px-5 py-7  font-bold '>YOUR TASKS</div>
+                    <div className='flex gap-2 w-3/4 px-5'>
+                        <input ref={inputSearchRef} placeholder="Please search your task here !" className="my-auto h-3/6 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onKeyDown={handleSearchInput}  defaultValue={input} ></input>
+                    </div>
+                </div>
+
             }
             <div className='border-b '>
                 {value?.map((todo: any) =>
@@ -89,7 +117,7 @@ const TodoList = () => {
                             </div>
                             <span className='flex items-center'>
                                 <button className='rounded bg-green-500 hover:bg-green-600 py-2 px-2 text-white mx-3 z-0' >
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onClick={() => handleUpdated(todo.id , todo.title , todo.completed)}>
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" onClick={() => handleUpdated(todo.id, todo.title, todo.completed)}>
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                     </svg>
                                 </button>

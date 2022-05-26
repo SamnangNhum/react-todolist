@@ -58,7 +58,7 @@ const TodoForm = () => {
     }
     return (
         <>
-            <div className=' mx-auto shadow-xl px-10 py-10 shadow-xl  rounded-md max-w-2xl bg-white my-10'>
+            <div className=' mx-auto  px-10 py-10 shadow-xl  rounded-md max-w-2xl bg-white my-10'>
 
                 <div className='flex justify-center gap-3 '>
                     <input ref={inputRef} className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onKeyDown={handleKeyDown}></input>
